@@ -1,0 +1,2 @@
+Spark 3.0.3 (git revision 65ac1e75dc) built for Hadoop 2.7.4
+Build flags: -B -Pmesos -Pyarn -Pkubernetes -Psparkr -Pscala-2.12 -Phadoop-2.7 -Phive -Phive-thriftserver -DzincPort=3038
