@@ -1,7 +1,3 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
 from pyspark.sql import SparkSession
 from pyspark.sql import SQLContext
 
@@ -11,8 +7,10 @@ def print_hi(name):
     print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
 
 
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     scSpark = SparkSession.builder.appName("reading csv").getOrCreate()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    data_file = '/Users/thabata.pontes/Downloads/life_insurance.csv'
+    sdfData = scSpark.read.csv(data_file).cache()
+    print('Total Records = {}'.format(sdfData.count()))
+    sdfData.show()
