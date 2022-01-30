@@ -44,6 +44,9 @@ if __name__ == '__main__':
     repartitioned = pjTransformed.repartition(4).rdd.getNumPartitions()
     print("partitions count after repartition:" + str(repartitioned))
 
+    # Combining both DataFrames
+    allDfs = insuranceDataFrame.join(pjDataFrame, 'customer__id')
+    allDfs.show()
     '''
     Next step: save file to database
     '''
