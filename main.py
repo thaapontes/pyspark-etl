@@ -47,6 +47,9 @@ if __name__ == '__main__':
     # Combining both DataFrames
     allDfs = insuranceDataFrame.join(pjDataFrame, 'customer__id')
     allDfs.show()
+
+    # Get schema
+    allDfs.printSchema()
     '''
     Next step: save file to database
     '''
