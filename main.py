@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
     # Read CSV file - 1
     data_file = '/Users/thabata.pontes/Downloads/life_insurance.csv'
-    insuranceDataFrame = spark.read.csv(data_file).cache()
+    insuranceDataFrame = spark.read.option("header", "true").csv(data_file).cache()
 
     # Read CSV file - 2
     pjDataFrame = spark.read\
@@ -36,6 +36,13 @@ if __name__ == '__main__':
         .groupBy('is_aware').count()
 
     pjTransformed.show(5)
+
+    # How many partitions the dataframe has (but for this to happen, it must be a rdd)
+    partitions = pjTransformed.rdd.getNumPartitions()
+    print("partitions count:" + str(partitions))
+
+    repartitioned = pjTransformed.repartition(4).rdd.getNumPartitions()
+    print("partitions count after repartition:" + str(repartitioned))
 
     '''
     Next step: save file to database
