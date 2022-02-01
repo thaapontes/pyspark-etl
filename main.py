@@ -50,6 +50,15 @@ if __name__ == '__main__':
 
     # Get schema
     allDfs.printSchema()
+
+    # Access to catalyst query plan
+    allDfs.explain()
+
+    # Querying on it
+    allDfs.createOrReplaceTempView("dfs")
+    myQuery = spark.sql('SELECT customer__id FROM dfs LIMIT 3')
+    myQuery.show()
+
     '''
     Next step: save file to database
     '''
