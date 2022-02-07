@@ -59,6 +59,9 @@ if __name__ == '__main__':
     myQuery = spark.sql('SELECT customer__id FROM dfs LIMIT 3')
     myQuery.show()
 
+    # Load
+    pjTransformed.coalesce(1).write.format('json').save('pj.json')
+
     '''
     Next step: save file to database
     '''
