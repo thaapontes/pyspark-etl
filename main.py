@@ -2,6 +2,7 @@ import pyspark
 from pyspark.sql import SparkSession
 from pyspark.sql import SQLContext
 from pyspark.sql.functions import when, col
+import os
 
 
 def print_hi(name):
@@ -10,9 +11,9 @@ def print_hi(name):
 
 if __name__ == '__main__':
     # Create a session on a local master
-    spark = SparkSession.builder\
-        .appName("reading csv")\
-        .master("local")\
+    spark = SparkSession.builder \
+        .appName("reading csv") \
+        .master("local") \
         .getOrCreate()
 
     # Read CSV file - 1
@@ -20,10 +21,17 @@ if __name__ == '__main__':
     insuranceDataFrame = spark.read.option("header", "true").csv(data_file).cache()
 
     # Read CSV file - 2
-    pjDataFrame = spark.read\
-        .format("csv")\
-        .option("header", "true")\
+    pjDataFrame = spark.read \
+        .format("csv") \
+        .option("header", "true") \
         .load("/Users/thabata.pontes/Downloads/pj.csv")
+
+    # Read CSV file - 3
+    current_dir = "/Users/thabata.pontes/Downloads/"
+    relative_path = "pj.csv"
+    absolute_file_path = os.path.join(current_dir, relative_path)
+
+    df = spark.read.csv(header=True, inferSchema=True, path=absolute_file_path)
 
     # How many records in the df and its content
     print('Total Records = {}'.format(insuranceDataFrame.count()))
@@ -31,8 +39,8 @@ if __name__ == '__main__':
     pjDataFrame.show(5)
 
     # Transforming the data
-    pjTransformed = pjDataFrame\
-        .withColumn("is_aware", when(col("current_stage") == "aware", 1).otherwise(0))\
+    pjTransformed = pjDataFrame \
+        .withColumn("is_aware", when(col("current_stage") == "aware", 1).otherwise(0)) \
         .groupBy('is_aware').count()
 
     pjTransformed.show(5)
@@ -61,6 +69,9 @@ if __name__ == '__main__':
 
     # Load
     pjTransformed.coalesce(1).write.format('json').save('pj.json')
+
+    #Stop SparkSession at the end of the application
+    spark.stop()
 
     '''
     Next step: save file to database
