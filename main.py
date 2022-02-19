@@ -1,8 +1,9 @@
-import pyspark
-from pyspark.sql import SparkSession
-from pyspark.sql import SQLContext
-from pyspark.sql.functions import when, col
+import json
+import logging
 import os
+
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import when, col
 
 
 def print_hi(name):
@@ -34,6 +35,7 @@ if __name__ == '__main__':
     df = spark.read.csv(header=True, inferSchema=True, path=absolute_file_path)
 
     # How many records in the df and its content
+    logging.warning("*** Right after ingestion")
     print('Total Records = {}'.format(insuranceDataFrame.count()))
     insuranceDataFrame.show(5)
     pjDataFrame.show(5)
@@ -43,6 +45,7 @@ if __name__ == '__main__':
         .withColumn("is_aware", when(col("current_stage") == "aware", 1).otherwise(0)) \
         .groupBy('is_aware').count()
 
+    logging.warning("*** Right after transformation")
     pjTransformed.show(5)
 
     # How many partitions the dataframe has (but for this to happen, it must be a rdd)
@@ -57,7 +60,14 @@ if __name__ == '__main__':
     allDfs.show()
 
     # Get schema
+    logging.warning("*** Schema as a tree:")
     allDfs.printSchema()
+
+    logging.warning("*** Schema as string: {}".format(allDfs.schema))
+    schemaAsJson = allDfs.schema.json()
+    parsedSchemaAsJson = json.loads(schemaAsJson)
+
+    logging.warning("*** Schema as JSON: {}".format(json.dumps(parsedSchemaAsJson, indent=2)))
 
     # Access to catalyst query plan
     allDfs.explain()
@@ -70,7 +80,7 @@ if __name__ == '__main__':
     # Load
     pjTransformed.coalesce(1).write.format('json').save('pj.json')
 
-    #Stop SparkSession at the end of the application
+    # Stop SparkSession at the end of the application
     spark.stop()
 
     '''
@@ -78,6 +88,7 @@ if __name__ == '__main__':
     '''
     # TODO get credentials from aws RDS
 
+    # FIRST WAY
     # set variable to be used to connect the database
     # database = "database-1.cg9pkmbnsltc.sa-east-1.rds.amazonaws.com"
     # table = sdfData
@@ -95,3 +106,10 @@ if __name__ == '__main__':
 
     # show the data loaded into dataframe
     # jdbcDF.show()
+
+    # SECOND WAY - spark in action chapter 02
+    # dbConnectionUrl = "jdbc:postgresql://localhost/spark_labs"
+    # properties = = {"driver":"org.postgresql.Driver", "user":"jgp", "password":"Spark<3Java"}
+    # df.write.jdbc(mode='overwrite', url=dbConnectionUrl, table="ch02", properties=prop)
+
+    # Tables in spark are transient, remember to write tables before finishing the session with spark.stop()
