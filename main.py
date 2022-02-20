@@ -4,6 +4,7 @@ import os
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import when, col
+from pyspark.sql.types import StructType, StructField, IntegerType
 
 
 def print_hi(name):
@@ -33,6 +34,11 @@ if __name__ == '__main__':
     absolute_file_path = os.path.join(current_dir, relative_path)
 
     df = spark.read.csv(header=True, inferSchema=True, path=absolute_file_path)
+
+    # Create a dataframe from array
+    data = [[1], [2], [3], [4]]
+    schema = StructType([StructField('age'), IntegerType(), True])
+    df_from_array = spark.createDataFrame(data, schema)
 
     # How many records in the df and its content
     logging.warning("*** Right after ingestion")
