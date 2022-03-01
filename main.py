@@ -3,7 +3,7 @@ import logging
 import os
 
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import when, col
+from pyspark.sql.functions import when, col, lit
 from pyspark.sql.types import StructType, StructField, IntegerType
 
 
@@ -19,8 +19,20 @@ if __name__ == '__main__':
         .getOrCreate()
 
     # Read CSV file - 1
+    mode = ""
     data_file = '/Users/thabata.pontes/Downloads/life_insurance.csv'
     insuranceDataFrame = spark.read.option("header", "true").csv(data_file).cache()
+    '''
+    SaveMode.Overwrite: overwrite the existing data.
+    SaveMode.Append: append the data.
+    SaveMode.Ignore: ignore the operation (i.e. no-op).
+    SaveMode.ErrorIfExists: throw an exception at runtime.
+    '''
+    if mode.lower != "noop":
+        insuranceDataFrame = insuranceDataFrame.withColumn("avg", lit(2))
+    if mode.lower == "full":
+        insuranceDataFrame = insuranceDataFrame.drop("date")
+        print("full")
 
     # Read CSV file - 2
     pjDataFrame = spark.read \
@@ -36,9 +48,9 @@ if __name__ == '__main__':
     df = spark.read.csv(header=True, inferSchema=True, path=absolute_file_path)
 
     # Create a dataframe from array
-    data = [[1], [2], [3], [4]]
-    schema = StructType([StructField('age'), IntegerType(), True])
-    df_from_array = spark.createDataFrame(data, schema)
+    data_array = [[1], [2], [3], [4]]
+    schema = StructType([StructField('age', IntegerType(), True)])
+    df_from_array = spark.createDataFrame(data_array, schema)
 
     # How many records in the df and its content
     logging.warning("*** Right after ingestion")
@@ -84,7 +96,7 @@ if __name__ == '__main__':
     myQuery.show()
 
     # Load
-    pjTransformed.coalesce(1).write.format('json').save('pj.json')
+    # pjTransformed.coalesce(1).write.format('json').save('pj.json')
 
     # Stop SparkSession at the end of the application
     spark.stop()
