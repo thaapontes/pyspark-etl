@@ -3,12 +3,18 @@ import logging
 import os
 
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import when, col, lit
+from pyspark.sql.functions import when, col
 from pyspark.sql.types import StructType, StructField, IntegerType
 
 
-def print_hi(name):
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+def read_file(option, spark, path):
+    if option == "with csv cache":
+        df = spark.read.option("header", "true").csv(path).cache()
+    elif option == "with format load":
+        df = spark.read.format("csv").option("header", "true").load(path)
+    else:
+        df = spark.read.csv(header=True, inferSchema=True, path=path)
+    return df
 
 
 if __name__ == '__main__':
@@ -19,33 +25,32 @@ if __name__ == '__main__':
         .getOrCreate()
 
     # Read CSV file - 1
-    mode = ""
-    data_file = '/Users/thabata.pontes/Downloads/life_insurance.csv'
-    insuranceDataFrame = spark.read.option("header", "true").csv(data_file).cache()
-    '''
-    SaveMode.Overwrite: overwrite the existing data.
-    SaveMode.Append: append the data.
-    SaveMode.Ignore: ignore the operation (i.e. no-op).
-    SaveMode.ErrorIfExists: throw an exception at runtime.
-    '''
-    if mode.lower != "noop":
-        insuranceDataFrame = insuranceDataFrame.withColumn("avg", lit(2))
-    if mode.lower == "full":
-        insuranceDataFrame = insuranceDataFrame.drop("date")
-        print("full")
+    data_file_path = '/Users/thabata.pontes/Downloads/life_insurance.csv'
+    insuranceDataFrame = read_file("with cache", spark, data_file_path)
+
+    # mode = ""
+    # '''
+    # SaveMode.Overwrite: overwrite the existing data.
+    # SaveMode.Append: append the data.
+    # SaveMode.Ignore: ignore the operation (i.e. no-op).
+    # SaveMode.ErrorIfExists: throw an exception at runtime.
+    # '''
+    # if mode.lower != "noop":
+    #     insuranceDataFrame = insuranceDataFrame.withColumn("avg", lit(2))
+    # if mode.lower == "full":
+    #     insuranceDataFrame = insuranceDataFrame.drop("date")
+    #     print("full")
 
     # Read CSV file - 2
-    pjDataFrame = spark.read \
-        .format("csv") \
-        .option("header", "true") \
-        .load("/Users/thabata.pontes/Downloads/pj.csv")
+    absolute_path = "/Users/thabata.pontes/Downloads/pj.csv"
+    pjDataFrame = read_file("with format load", spark, absolute_path)
 
     # Read CSV file - 3
     current_dir = "/Users/thabata.pontes/Downloads/"
     relative_path = "pj.csv"
     absolute_file_path = os.path.join(current_dir, relative_path)
 
-    df = spark.read.csv(header=True, inferSchema=True, path=absolute_file_path)
+    df = read_file("with csv", spark, absolute_file_path)
 
     # Create a dataframe from array
     data_array = [[1], [2], [3], [4]]
@@ -100,6 +105,8 @@ if __name__ == '__main__':
 
     # Stop SparkSession at the end of the application
     spark.stop()
+
+    # chapter 05
 
     '''
     Next step: save file to database
