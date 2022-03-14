@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+from dataframes import HeightByGenderAndCountryDf
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import when, col
@@ -24,22 +25,8 @@ if __name__ == '__main__':
         .master("local") \
         .getOrCreate()
 
-    # Read CSV file - 1
-    data_file_path = '/Users/thabata.pontes/Downloads/life_insurance.csv'
-    insuranceDataFrame = read_file("with cache", spark, data_file_path)
-
-    # mode = ""
-    # '''
-    # SaveMode.Overwrite: overwrite the existing data.
-    # SaveMode.Append: append the data.
-    # SaveMode.Ignore: ignore the operation (i.e. no-op).
-    # SaveMode.ErrorIfExists: throw an exception at runtime.
-    # '''
-    # if mode.lower != "noop":
-    #     insuranceDataFrame = insuranceDataFrame.withColumn("avg", lit(2))
-    # if mode.lower == "full":
-    #     insuranceDataFrame = insuranceDataFrame.drop("date")
-    #     print("full")
+    # Call dataframes
+    HeightByGenderAndCountryDf.height_by_gender_and_country(spark)
 
     # Read CSV file - 2
     absolute_path = "/Users/thabata.pontes/Downloads/pj.csv"
@@ -59,8 +46,8 @@ if __name__ == '__main__':
 
     # How many records in the df and its content
     logging.warning("*** Right after ingestion")
-    print('Total Records = {}'.format(insuranceDataFrame.count()))
-    insuranceDataFrame.show(5)
+    # print('Total Records = {}'.format(insuranceDataFrame.count()))
+    # insuranceDataFrame.show(5)
     pjDataFrame.show(5)
 
     # Transforming the data
@@ -79,24 +66,24 @@ if __name__ == '__main__':
     print("partitions count after repartition:" + str(repartitioned))
 
     # Combining both DataFrames
-    allDfs = insuranceDataFrame.join(pjDataFrame, 'customer__id')
-    allDfs.show()
+    # allDfs = insuranceDataFrame.join(pjDataFrame, 'customer__id')
+    # allDfs.show()
 
     # Get schema
     logging.warning("*** Schema as a tree:")
-    allDfs.printSchema()
+    # allDfs.printSchema()
 
-    logging.warning("*** Schema as string: {}".format(allDfs.schema))
-    schemaAsJson = allDfs.schema.json()
-    parsedSchemaAsJson = json.loads(schemaAsJson)
+    # logging.warning("*** Schema as string: {}".format(allDfs.schema))
+    # schemaAsJson = allDfs.schema.json()
+    # parsedSchemaAsJson = json.loads(schemaAsJson)
 
     logging.warning("*** Schema as JSON: {}".format(json.dumps(parsedSchemaAsJson, indent=2)))
 
     # Access to catalyst query plan
-    allDfs.explain()
+    # allDfs.explain()
 
     # Querying on it
-    allDfs.createOrReplaceTempView("dfs")
+    # allDfs.createOrReplaceTempView("dfs")
     myQuery = spark.sql('SELECT customer__id FROM dfs LIMIT 3')
     myQuery.show()
 
