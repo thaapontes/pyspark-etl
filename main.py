@@ -1,7 +1,7 @@
 import json
 import logging
 import os
-from dataframes import HeightByGenderAndCountryDf, covidDf
+from dataframes import height_by_gender_and_country_df, covid_df
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import when, col
