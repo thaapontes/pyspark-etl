@@ -1,7 +1,7 @@
 import json
 import logging
 import os
-from dataframes import HeightByGenderAndCountryDf
+from dataframes import HeightByGenderAndCountryDf, covidDf
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import when, col
@@ -27,10 +27,7 @@ if __name__ == '__main__':
 
     # Call dataframes
     HeightByGenderAndCountryDf.height_by_gender_and_country(spark)
-
-    # Read CSV file - 2
-    absolute_path = "/Users/thabata.pontes/Downloads/pj.csv"
-    pjDataFrame = read_file("with format load", spark, absolute_path)
+    covidDf.labels_covid(spark)
 
     # Read CSV file - 3
     current_dir = "/Users/thabata.pontes/Downloads/"
@@ -48,22 +45,22 @@ if __name__ == '__main__':
     logging.warning("*** Right after ingestion")
     # print('Total Records = {}'.format(insuranceDataFrame.count()))
     # insuranceDataFrame.show(5)
-    pjDataFrame.show(5)
+    # pjDataFrame.show(5)
 
     # Transforming the data
-    pjTransformed = pjDataFrame \
-        .withColumn("is_aware", when(col("current_stage") == "aware", 1).otherwise(0)) \
-        .groupBy('is_aware').count()
+    # pjTransformed = pjDataFrame \
+    #     .withColumn("is_aware", when(col("current_stage") == "aware", 1).otherwise(0)) \
+    #     .groupBy('is_aware').count()
 
     logging.warning("*** Right after transformation")
-    pjTransformed.show(5)
+    # pjTransformed.show(5)
 
     # How many partitions the dataframe has (but for this to happen, it must be a rdd)
-    partitions = pjTransformed.rdd.getNumPartitions()
-    print("partitions count:" + str(partitions))
+    # partitions = pjTransformed.rdd.getNumPartitions()
+    # print("partitions count:" + str(partitions))
 
-    repartitioned = pjTransformed.repartition(4).rdd.getNumPartitions()
-    print("partitions count after repartition:" + str(repartitioned))
+    # repartitioned = pjTransformed.repartition(4).rdd.getNumPartitions()
+    # print("partitions count after repartition:" + str(repartitioned))
 
     # Combining both DataFrames
     # allDfs = insuranceDataFrame.join(pjDataFrame, 'customer__id')
@@ -77,7 +74,7 @@ if __name__ == '__main__':
     # schemaAsJson = allDfs.schema.json()
     # parsedSchemaAsJson = json.loads(schemaAsJson)
 
-    logging.warning("*** Schema as JSON: {}".format(json.dumps(parsedSchemaAsJson, indent=2)))
+    # logging.warning("*** Schema as JSON: {}".format(json.dumps(parsedSchemaAsJson, indent=2)))
 
     # Access to catalyst query plan
     # allDfs.explain()
