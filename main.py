@@ -1,7 +1,7 @@
 import json
 import logging
 import os
-from dataframes import height_by_gender_and_country_df, covid_df
+from dataframes import height_by_gender_and_country_df, covid_df, cars_df
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import when, col
@@ -28,13 +28,8 @@ if __name__ == '__main__':
     # Call dataframes
     height_by_gender_and_country_df.height_by_gender_and_country(spark)
     covid_df.labels_covid(spark)
+    cars_df.ge_cars(spark)
 
-    # Read CSV file - 3
-    current_dir = "/Users/thabata.pontes/Downloads/"
-    relative_path = "pj.csv"
-    absolute_file_path = os.path.join(current_dir, relative_path)
-
-    df = read_file("with csv", spark, absolute_file_path)
 
     # Create a dataframe from array
     data_array = [[1], [2], [3], [4]]
