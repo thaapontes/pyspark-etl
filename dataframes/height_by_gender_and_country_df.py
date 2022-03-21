@@ -5,7 +5,8 @@ from pyspark import SparkContext
     Small file: 4kB
 """
 
-__all__ = 'height_by_gender_and_country',
+__all__ = ["height_by_gender_and_country"]
+
 
 def height_by_gender_and_country(sc: SparkContext):
     data_file_path = '/Users/thabata.pontes/Desktop/PySparkETL/kaggle_csvs/Height_of_Male_and_Female_by_Country_2022.csv'

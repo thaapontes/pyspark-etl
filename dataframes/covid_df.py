@@ -5,7 +5,8 @@ from pyspark import SparkContext
     Medium file: 1GB
 """
 
-__all__ = 'labels_covid',
+__all__ = ["labels_covid"]
+
 
 def labels_covid(sc: SparkContext):
     data_file_path = '/Users/thabata.pontes/Desktop/PySparkETL/kaggle_csvs/labels_Covid.csv'

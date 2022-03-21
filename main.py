@@ -1,7 +1,11 @@
 import json
 import logging
 import os
+
+from pyspark import SparkContext
+
 import dataframes
+from dataframes import ge_cars, height_by_gender_and_country, labels_covid
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import when, col
 from pyspark.sql.types import StructType, StructField, IntegerType
@@ -16,7 +20,6 @@ def read_file(option, spark, path):
         df = spark.read.csv(header=True, inferSchema=True, path=path)
     return df
 
-
 if __name__ == '__main__':
     # Create a session on a local master
     spark = SparkSession.builder \
@@ -25,10 +28,8 @@ if __name__ == '__main__':
         .getOrCreate()
 
     # Call dataframes
-    dataframes.height_by_gender_and_country_df.height_by_gender_and_country(spark)
-    dataframes.covid_df.labels_covid(spark)
-    dataframes.cars_df.ge_cars(spark)
-
+    for i in dataframes.__all__:
+        eval(i)(spark)
 
     # Create a dataframe from array
     data_array = [[1], [2], [3], [4]]
