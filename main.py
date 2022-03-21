@@ -26,8 +26,8 @@ if __name__ == '__main__':
         .getOrCreate()
 
     # Call dataframes
-    HeightByGenderAndCountryDf.height_by_gender_and_country(spark)
-    covidDf.labels_covid(spark)
+    height_by_gender_and_country_df.height_by_gender_and_country(spark)
+    covid_df.labels_covid(spark)
 
     # Read CSV file - 3
     current_dir = "/Users/thabata.pontes/Downloads/"
