@@ -21,3 +21,7 @@ def ge_cars(sc: SparkContext):
     print("partitions count after repartition:" + str(df_repartitioned.rdd.getNumPartitions()))
     print("partitions size after repartition:" + str(
         df_repartitioned.rdd.mapPartitionsWithIndex(lambda x, it: [(x, sum(1 for _ in it))]).collect()))
+
+
+def __all__():
+    return 'GeCars'
