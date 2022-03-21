@@ -7,6 +7,9 @@ from pyspark import SparkContext
     Huge file: 16GB
     Diff between coalesce and repartition: https://towardsdatascience.com/how-to-efficiently-re-partition-spark-dataframes-c036e8261418
 """
+
+__all__ = 'ge_cars',
+
 def ge_cars(sc: SparkContext):
     current_dir = "/Users/thabata.pontes/Desktop/PySparkETL/kaggle_csvs/"
     relative_path = "MyAuto_ge_Cars_Data.csv"
@@ -21,7 +24,3 @@ def ge_cars(sc: SparkContext):
     print("partitions count after repartition:" + str(df_repartitioned.rdd.getNumPartitions()))
     print("partitions size after repartition:" + str(
         df_repartitioned.rdd.mapPartitionsWithIndex(lambda x, it: [(x, sum(1 for _ in it))]).collect()))
-
-
-def __all__():
-    return 'GeCars'

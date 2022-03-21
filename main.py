@@ -1,8 +1,7 @@
 import json
 import logging
 import os
-from dataframes import height_by_gender_and_country_df, covid_df, cars_df
-
+import dataframes
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import when, col
 from pyspark.sql.types import StructType, StructField, IntegerType
@@ -26,9 +25,9 @@ if __name__ == '__main__':
         .getOrCreate()
 
     # Call dataframes
-    height_by_gender_and_country_df.height_by_gender_and_country(spark)
-    covid_df.labels_covid(spark)
-    cars_df.ge_cars(spark)
+    dataframes.height_by_gender_and_country_df.height_by_gender_and_country(spark)
+    dataframes.covid_df.labels_covid(spark)
+    dataframes.cars_df.ge_cars(spark)
 
 
     # Create a dataframe from array
