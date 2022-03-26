@@ -10,16 +10,6 @@ from pyspark.sql import SparkSession
 from pyspark.sql.functions import when, col
 from pyspark.sql.types import StructType, StructField, IntegerType
 
-
-def read_file(option, spark, path):
-    if option == "with csv cache":
-        df = spark.read.option("header", "true").csv(path).cache()
-    elif option == "with format load":
-        df = spark.read.format("csv").option("header", "true").load(path)
-    else:
-        df = spark.read.csv(header=True, inferSchema=True, path=path)
-    return df
-
 if __name__ == '__main__':
     # Create a session on a local master
     spark = SparkSession.builder \
@@ -30,11 +20,6 @@ if __name__ == '__main__':
     # Call dataframes
     for i in dataframes.__all__:
         eval(i)(spark)
-
-    # Create a dataframe from array
-    data_array = [[1], [2], [3], [4]]
-    schema = StructType([StructField('age', IntegerType(), True)])
-    df_from_array = spark.createDataFrame(data_array, schema)
 
     # How many records in the df and its content
     logging.warning("*** Right after ingestion")
