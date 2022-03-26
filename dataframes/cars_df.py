@@ -1,6 +1,6 @@
 import os
 
-from pyspark import SparkContext
+from pyspark.sql import SparkSession
 
 """
     Csv example from: https://www.kaggle.com/datasets
@@ -11,7 +11,7 @@ from pyspark import SparkContext
 __all__ = ["ge_cars"]
 
 
-def ge_cars(sc: SparkContext):
+def ge_cars(sc: SparkSession):
     current_dir = "/Users/thabata.pontes/Desktop/PySparkETL/kaggle_csvs/"
     relative_path = "MyAuto_ge_Cars_Data.csv"
     absolute_file_path = os.path.join(current_dir, relative_path)

@@ -1,14 +1,10 @@
-import json
 import logging
-import os
 
-from pyspark import SparkContext
+from pyspark.sql import SparkSession
+from dataframes import ge_cars, height_by_gender_and_country, labels_covid, create_dataframe_from_array
+# TODO find a way to remove these imports
 
 import dataframes
-from dataframes import ge_cars, height_by_gender_and_country, labels_covid
-from pyspark.sql import SparkSession
-from pyspark.sql.functions import when, col
-from pyspark.sql.types import StructType, StructField, IntegerType
 
 if __name__ == '__main__':
     # Create a session on a local master
