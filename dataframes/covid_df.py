@@ -12,3 +12,5 @@ def labels_covid(sc: SparkSession):
     data_file_path = '/Users/thabata.pontes/Desktop/PySparkETL/kaggle_csvs/labels_Covid.csv'
     df = sc.read.option("header", "true").csv(data_file_path)
     df.show(5)
+
+    return df

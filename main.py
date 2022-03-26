@@ -1,10 +1,16 @@
 import logging
 
+from pyspark.pandas import DataFrame
 from pyspark.sql import SparkSession
 from dataframes import ge_cars, height_by_gender_and_country, labels_covid, create_dataframe_from_array
 # TODO find a way to remove these imports
 
 import dataframes
+
+
+def get_number_of_records(df: DataFrame):
+    print('Total Records = {}'.format(df.count()))
+
 
 if __name__ == '__main__':
     # Create a session on a local master
@@ -16,12 +22,8 @@ if __name__ == '__main__':
     # Call dataframes
     for i in dataframes.__all__:
         eval(i)(spark)
-
-    # How many records in the df and its content
-    logging.warning("*** Right after ingestion")
-    # print('Total Records = {}'.format(insuranceDataFrame.count()))
-    # insuranceDataFrame.show(5)
-    # pjDataFrame.show(5)
+        logging.warning("*** Right after ingestion")
+        get_number_of_records(eval(i)(spark))
 
     # Transforming the data
     # pjTransformed = pjDataFrame \
