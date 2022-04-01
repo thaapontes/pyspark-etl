@@ -34,6 +34,8 @@ if __name__ == '__main__':
         eval(i)(spark)
         logging.warning("*** Right after ingestion")
         get_number_of_records(eval(i)(spark))
+        get_number_of_partitions(eval(i)(spark))
+        get_number_of_partitions_after_repartition(eval(i)(spark), 4)
 
     # Transforming the data
     # pjTransformed = pjDataFrame \
