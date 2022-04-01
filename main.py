@@ -12,6 +12,16 @@ def get_number_of_records(df: DataFrame):
     print('Total Records = {}'.format(df.count()))
 
 
+def get_number_of_partitions(df: DataFrame):
+    partitions = df.rdd.getNumPartitions()
+    print("partitions count:" + str(partitions))
+
+
+def get_number_of_partitions_after_repartition(df: DataFrame, number_of_partitions: int):
+    repartitioned = df.repartition(number_of_partitions).rdd.getNumPartitions()
+    print("partitions count after repartition:" + str(repartitioned))
+
+
 if __name__ == '__main__':
     # Create a session on a local master
     spark = SparkSession.builder \
@@ -32,13 +42,6 @@ if __name__ == '__main__':
 
     logging.warning("*** Right after transformation")
     # pjTransformed.show(5)
-
-    # How many partitions the dataframe has (but for this to happen, it must be a rdd)
-    # partitions = pjTransformed.rdd.getNumPartitions()
-    # print("partitions count:" + str(partitions))
-
-    # repartitioned = pjTransformed.repartition(4).rdd.getNumPartitions()
-    # print("partitions count after repartition:" + str(repartitioned))
 
     # Combining both DataFrames
     # allDfs = insuranceDataFrame.join(pjDataFrame, 'customer__id')
