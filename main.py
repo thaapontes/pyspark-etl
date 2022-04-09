@@ -2,10 +2,10 @@ import logging
 
 from pyspark.pandas import DataFrame
 from pyspark.sql import SparkSession
-from dataframes import ge_cars, height_by_gender_and_country, labels_covid, create_dataframe_from_array
+from ingested_dataframes import ge_cars, height_by_gender_and_country, labels_covid, create_dataframe_from_array
 # TODO find a way to remove these imports
 
-import dataframes
+import ingested_dataframes
 
 
 def get_number_of_records(df: DataFrame):
@@ -29,21 +29,16 @@ if __name__ == '__main__':
         .master("local") \
         .getOrCreate()
 
-    # Call dataframes
-    for i in dataframes.__all__:
+    # Call ingested dataframes
+    for i in ingested_dataframes.__all__:
         eval(i)(spark)
         logging.warning("*** Right after ingestion")
-        get_number_of_records(eval(i)(spark))
-        get_number_of_partitions(eval(i)(spark))
-        get_number_of_partitions_after_repartition(eval(i)(spark), 4)
+        # get_number_of_records(eval(i)(spark))
+        # get_number_of_partitions(eval(i)(spark))
+        # get_number_of_partitions_after_repartition(eval(i)(spark), 4)
 
-    # Transforming the data
-    # pjTransformed = pjDataFrame \
-    #     .withColumn("is_aware", when(col("current_stage") == "aware", 1).otherwise(0)) \
-    #     .groupBy('is_aware').count()
-
-    logging.warning("*** Right after transformation")
-    # pjTransformed.show(5)
+    for i in transformed_dataframes.__all__:
+        logging.warning("*** Right after transformations")
 
     # Combining both DataFrames
     # allDfs = insuranceDataFrame.join(pjDataFrame, 'customer__id')
