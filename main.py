@@ -3,9 +3,11 @@ import logging
 from pyspark.pandas import DataFrame
 from pyspark.sql import SparkSession
 from ingested_dataframes import ge_cars, height_by_gender_and_country, labels_covid, create_dataframe_from_array
+from transformed_dataframes import cars_price
 # TODO find a way to remove these imports
 
 import ingested_dataframes
+import transformed_dataframes
 
 
 def get_number_of_records(df: DataFrame):
@@ -33,11 +35,12 @@ if __name__ == '__main__':
     for i in ingested_dataframes.__all__:
         eval(i)(spark)
         logging.warning("*** Right after ingestion")
-        # get_number_of_records(eval(i)(spark))
-        # get_number_of_partitions(eval(i)(spark))
-        # get_number_of_partitions_after_repartition(eval(i)(spark), 4)
+        get_number_of_records(eval(i)(spark))
+        get_number_of_partitions(eval(i)(spark))
+        get_number_of_partitions_after_repartition(eval(i)(spark), 4)
 
     for i in transformed_dataframes.__all__:
+        eval(i)(spark)
         logging.warning("*** Right after transformations")
 
     # Combining both DataFrames
