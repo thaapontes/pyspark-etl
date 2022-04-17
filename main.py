@@ -37,6 +37,16 @@ def get_schema(df: DataFrame, schema_type: str):
         logging.warning("*** Schema as JSON: {}".format(json.dumps(parsed_schema, indent=2)))
 
 
+def get_query_plan(df: DataFrame):
+    df.explain()
+
+
+def query_on_df(df: DataFrame, column: str):
+    df.createOrReplaceTempView("dfs")
+    my_query = spark.sql('SELECT ' + column + ' FROM dfs LIMIT 3')
+    my_query.show()
+
+
 if __name__ == '__main__':
     # Create a session on a local master
     spark = SparkSession.builder \
@@ -56,14 +66,8 @@ if __name__ == '__main__':
         eval(i)(spark)
         logging.warning("*** Right after transformations")
         get_schema(eval(i)(spark), 'json')
-
-    # Access to catalyst query plan
-    # allDfs.explain()
-
-    # Querying on it
-    # allDfs.createOrReplaceTempView("dfs")
-    myQuery = spark.sql('SELECT customer__id FROM dfs LIMIT 3')
-    myQuery.show()
+        get_query_plan(eval(i)(spark))
+        query_on_df(eval(i)(spark), 'price_range')
 
     # Load
     # pjTransformed.coalesce(1).write.format('json').save('pj.json')
