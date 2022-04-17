@@ -47,6 +47,10 @@ def query_on_df(df: DataFrame, column: str):
     my_query.show()
 
 
+def load_df(df: DataFrame, df_name: str):
+    df.coalesce(1).write.format('json').save(df_name + '.json')
+
+
 if __name__ == '__main__':
     # Create a session on a local master
     spark = SparkSession.builder \
@@ -68,9 +72,7 @@ if __name__ == '__main__':
         get_schema(eval(i)(spark), 'json')
         get_query_plan(eval(i)(spark))
         query_on_df(eval(i)(spark), 'price_range')
-
-    # Load
-    # pjTransformed.coalesce(1).write.format('json').save('pj.json')
+        # load_df(eval(i)(spark), i)
 
     # Stop SparkSession at the end of the application
     spark.stop()
