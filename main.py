@@ -74,6 +74,13 @@ if __name__ == '__main__':
         query_on_df(eval(i)(spark), 'price_range')
         # load_df(eval(i)(spark), i)
 
+    # Create RDD from a list
+    rdd = spark.sparkContext.parallelize([1, 2, 3, 4, 5])
+    rddCollect = rdd.collect()
+    print("Number of Partitions: " + str(rdd.getNumPartitions()))
+    print("Action: First element: " + str(rdd.first()))
+    print(rddCollect)
+
     # Stop SparkSession at the end of the application
     spark.stop()
 
