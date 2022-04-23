@@ -81,6 +81,11 @@ if __name__ == '__main__':
     print("Action: First element: " + str(rdd.first()))
     print(rddCollect)
 
+    # Create empty RDD
+    emptyRDD = spark.sparkContext.emptyRDD()
+    emptyRDD2 = spark.sparkContext.parallelize([])
+    print("is Empty RDD : " + str(emptyRDD2.isEmpty()))
+
     # Stop SparkSession at the end of the application
     spark.stop()
 
