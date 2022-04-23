@@ -11,11 +11,11 @@ from pyspark.sql import SparkSession
 __all__ = ["ge_cars"]
 
 
-def ge_cars(sc: SparkSession):
+def ge_cars(spark: SparkSession):
     current_dir = "/Users/thabata.pontes/Desktop/PySparkETL/kaggle_csvs/"
     relative_path = "MyAuto_ge_Cars_Data.csv"
     absolute_file_path = os.path.join(current_dir, relative_path)
-    df = sc.read.option("header", "true").csv(absolute_file_path)
+    df = spark.read.option("header", "true").csv(absolute_file_path)
 
     # print("partitions count before repartition:" + str(df.rdd.getNumPartitions()))
     # print("partitions size before repartition:" + str(

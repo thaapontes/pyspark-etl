@@ -89,7 +89,7 @@ if __name__ == '__main__':
     # Stop SparkSession at the end of the application
     spark.stop()
 
-    # chapter 05
+    # chapter 06
 
     '''
     Next step: save file to database
