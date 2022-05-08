@@ -3,7 +3,7 @@ import logging
 from pandas._libs import json
 from pyspark.pandas import DataFrame
 from pyspark.sql import SparkSession
-from ingested_dataframes import ge_cars, height_by_gender_and_country, labels_covid, create_dataframe_from_array, spotify_songs
+from ingested_dataframes import ge_cars, height_by_gender_and_country, labels_covid, create_dataframe_from_array, spotify_songs, thailand_public
 from transformed_dataframes import cars_price
 # TODO find a way to remove these imports
 
@@ -61,30 +61,30 @@ if __name__ == '__main__':
     # Call ingested dataframes
     for i in ingested_dataframes.__all__:
         eval(i)(spark)
-        logging.warning("*** Right after ingestion")
+        # logging.warning("*** Right after ingestion")
         # get_number_of_records(eval(i)(spark))
         # get_number_of_partitions(eval(i)(spark))
         # get_number_of_partitions_after_repartition(eval(i)(spark), 4)
 
     for i in transformed_dataframes.__all__:
         eval(i)(spark)
-        logging.warning("*** Right after transformations")
-        get_schema(eval(i)(spark), 'json')
-        get_query_plan(eval(i)(spark))
-        query_on_df(eval(i)(spark), 'price_range')
+        # logging.warning("*** Right after transformations")
+        # get_schema(eval(i)(spark), 'json')
+        # get_query_plan(eval(i)(spark))
+        # query_on_df(eval(i)(spark), 'price_range')
         # load_df(eval(i)(spark), i)
 
     # Create RDD from a list
     rdd = spark.sparkContext.parallelize([1, 2, 3, 4, 5])
     rddCollect = rdd.collect()
-    print("Number of Partitions: " + str(rdd.getNumPartitions()))
-    print("Action: First element: " + str(rdd.first()))
-    print(rddCollect)
+    # print("Number of Partitions: " + str(rdd.getNumPartitions()))
+    # print("Action: First element: " + str(rdd.first()))
+    # print(rddCollect)
 
     # Create empty RDD
     emptyRDD = spark.sparkContext.emptyRDD()
     emptyRDD2 = spark.sparkContext.parallelize([])
-    print("is Empty RDD : " + str(emptyRDD2.isEmpty()))
+    # print("is Empty RDD : " + str(emptyRDD2.isEmpty()))
 
     # Stop SparkSession at the end of the application
     spark.stop()

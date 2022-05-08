@@ -12,6 +12,7 @@ def create_dataframe_from_array(spark: SparkSession):
     data_array = [[1], [2], [3], [4]]
     schema = StructType([StructField('age', IntegerType(), True)])
     df_from_array = spark.createDataFrame(data_array, schema)
+    print("Array DataFrame: ")
     df_from_array.show(5)
 
     return df_from_array

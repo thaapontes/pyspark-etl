@@ -10,9 +10,9 @@ from pyspark.sql import SparkSession
 
 __all__ = ["ge_cars"]
 
-
+# INGESTION WITHOUT SCHEMA
 def ge_cars(spark: SparkSession):
-    current_dir = "/Users/thabata.pontes/Desktop/PySparkETL/kaggle_csvs/"
+    current_dir = "/Users/thabata.pontes/Desktop/PySparkETL/kaggle_files/"
     relative_path = "MyAuto_ge_Cars_Data.csv"
     absolute_file_path = os.path.join(current_dir, relative_path)
     df = spark.read.option("header", "true").csv(absolute_file_path)
@@ -22,6 +22,7 @@ def ge_cars(spark: SparkSession):
     #     df.rdd.mapPartitionsWithIndex(lambda x, it: [(x, sum(1 for _ in it))]).collect()))
 
     df_repartitioned = df.repartition(95)
+    print("GE cars DataFrame: ")
     df_repartitioned.show(5)
     # print("partitions count after repartition:" + str(df_repartitioned.rdd.getNumPartitions()))
     # print("partitions size after repartition:" + str(
