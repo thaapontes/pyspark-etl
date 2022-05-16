@@ -3,7 +3,7 @@ import logging
 from pandas._libs import json
 from pyspark.pandas import DataFrame
 from pyspark.sql import SparkSession
-from ingested_dataframes import ge_cars, height_by_gender_and_country, labels_covid, create_dataframe_from_array, spotify_songs, thailand_public
+from ingested_dataframes import ge_cars, height_by_gender_and_country, labels_covid, create_dataframe_from_array, spotify_songs, thailand_public, enem_test_and_train
 from transformed_dataframes import cars_price
 # TODO find a way to remove these imports
 
@@ -59,6 +59,7 @@ if __name__ == '__main__':
         .getOrCreate()
 
     # Call ingested dataframes
+    # Multiple ways to ingest different formats: https://github.com/jgperrin/net.jgp.books.spark.ch07/tree/master/src/main/python
     for i in ingested_dataframes.__all__:
         eval(i)(spark)
         # logging.warning("*** Right after ingestion")
@@ -89,7 +90,7 @@ if __name__ == '__main__':
     # Stop SparkSession at the end of the application
     spark.stop()
 
-    # chapter 07
+    # chapter 08
 
     '''
     Next step: save file to database
