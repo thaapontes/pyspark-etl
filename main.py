@@ -58,8 +58,10 @@ if __name__ == '__main__':
         .master("local") \
         .getOrCreate()
 
-    # Call ingested dataframes Multiple ways to ingest different formats:
-    # https://github.com/jgperrin/net.jgp.books.spark.ch07/tree/master/src/main/python
+    ''' 
+    Call ingested dataframes Multiple ways to ingest different formats:
+    https://github.com/jgperrin/net.jgp.books.spark.ch07/tree/master/src/main/python
+    '''
     for i in ingested_dataframes.__all__:
         eval(i)(spark)
         # logging.warning("*** Right after ingestion")
@@ -90,6 +92,9 @@ if __name__ == '__main__':
     # Stop SparkSession at the end of the application
     spark.stop()
 
+    '''
+    Read lines from file stream
+    '''
     # chapter 08: database
 
     '''
