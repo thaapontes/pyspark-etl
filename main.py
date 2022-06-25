@@ -4,7 +4,7 @@ from pandas._libs import json
 from pyspark.pandas import DataFrame
 from pyspark.sql import SparkSession
 from ingested_dataframes import ge_cars, height_by_gender_and_country, labels_covid, create_dataframe_from_array, spotify_songs, thailand_public, enem_test_and_train
-from transformed_dataframes import cars_price
+from transformed_dataframes import cars_price, artists_danceability
 # TODO find a way to remove these imports
 
 import ingested_dataframes
