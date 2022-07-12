@@ -3,11 +3,12 @@ import logging
 from pandas._libs import json
 from pyspark.pandas import DataFrame
 from pyspark.sql import SparkSession
-from transformed_dataframes import cars_price, artists_danceability, height_transformed
-# TODO find a way to remove these imports
 
 import ingested_dataframes
 import transformed_dataframes
+
+
+# TODO find a way to remove these imports
 
 
 def get_number_of_records(df: DataFrame):
@@ -60,6 +61,11 @@ if __name__ == '__main__':
     ''' 
     Call ingested dataframes Multiple ways to ingest different formats:
     https://github.com/jgperrin/net.jgp.books.spark.ch07/tree/master/src/main/python
+    Reading a DF:
+    - format: json, csv
+    - enforce schema or inferSchema = true
+    - path in load() or options
+    - zero or more options like mode (failFast, dropMalformed, permissive)
     '''
     for i in ingested_dataframes.__all__:
         eval(i)(spark)
@@ -67,6 +73,14 @@ if __name__ == '__main__':
         # get_number_of_records(eval(i)(spark))
         # get_number_of_partitions(eval(i)(spark))
         # get_number_of_partitions_after_repartition(eval(i)(spark), 4)
+
+    ''' 
+    Writing a DF:
+    - format: json, csv
+    - mode: overwrite, append, ignore, errorIfExists
+    - path in save()
+    - zero or more options
+    '''
 
     for i in transformed_dataframes.__all__:
         eval(i)(spark)

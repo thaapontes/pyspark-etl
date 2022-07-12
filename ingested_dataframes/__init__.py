@@ -7,6 +7,7 @@ from .thailand_public_train import *
 from .enem import *
 from .create_df_from_row import *
 from .smartphones_df import *
+from .enforcing_schema import *
 
 __all__ = (cars_df.__all__ +
            covid_df.__all__ +
@@ -16,5 +17,6 @@ __all__ = (cars_df.__all__ +
            thailand_public_train.__all__ +
            enem.__all__ +
            create_df_from_row.__all__ +
-           smartphones_df.__all__
+           smartphones_df.__all__ +
+           enforcing_schema.__all__
            )
