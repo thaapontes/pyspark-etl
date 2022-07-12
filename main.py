@@ -8,6 +8,7 @@ import ingested_dataframes
 import transformed_dataframes
 
 
+# from transformed_dataframes import cars_price, artists_danceability, height_transformed
 # TODO find a way to remove these imports
 
 
@@ -62,10 +63,11 @@ if __name__ == '__main__':
     Call ingested dataframes Multiple ways to ingest different formats:
     https://github.com/jgperrin/net.jgp.books.spark.ch07/tree/master/src/main/python
     Reading a DF:
-    - format: json, csv
+    - format: json, csv, text, parquet (default format in Spark, not needed to put .format)
     - enforce schema or inferSchema = true
     - path in load() or options
-    - zero or more options like mode (failFast, dropMalformed, permissive)
+    - zero or more options like mode (failFast, dropMalformed, permissive), 
+    dateFormat, header, sep, nullValue
     '''
     for i in ingested_dataframes.__all__:
         eval(i)(spark)
@@ -76,7 +78,7 @@ if __name__ == '__main__':
 
     ''' 
     Writing a DF:
-    - format: json, csv
+    - format: json, csv, text, parquet (default format in Spark, not needed to put .format)
     - mode: overwrite, append, ignore, errorIfExists
     - path in save()
     - zero or more options
@@ -152,4 +154,22 @@ if __name__ == '__main__':
     # properties = = {"driver":"org.postgresql.Driver", "user":"jgp", "password":"Spark<3Java"}
     # df.write.jdbc(mode='overwrite', url=dbConnectionUrl, table="ch02", properties=prop)
 
+    # THIRD WAY
+    '''
+    Reading from a remote DB
+    
+    driver = "org.postgresql.Driver"
+    url = "jdbc:postgresql://localhost:5432/rtjvm"
+    user = "docker"
+    password = "docker"
+
+    employeesDF = spark.read
+    .format("jdbc")
+    .option("driver", driver)
+    .option("url", url)
+    .option("user", user)
+    .option("password", password)
+    .option("dbtable", "public.employees")
+    .load()
+    '''
     # Tables in spark are transient, remember to write tables before finishing the session with spark.stop()
