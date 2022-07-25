@@ -10,6 +10,7 @@ from pyspark.sql import SparkSession
 
 __all__ = ["ge_cars"]
 
+
 # INGESTION WITHOUT SCHEMA
 def ge_cars(spark: SparkSession):
     current_dir = "/Users/thabata.pontes/Desktop/PySparkETL/kaggle_files/"

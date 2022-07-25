@@ -1,6 +1,6 @@
 from pyspark.sql import SparkSession
 
-from ingested_dataframes import spotify_songs
+from spotify_2018_top_songs import spotify_songs
 
 __all__ = ["artists_danceability"]
 

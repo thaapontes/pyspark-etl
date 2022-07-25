@@ -1,7 +1,7 @@
-from pyspark.sql import SparkSession, SaveMode
+from pyspark.sql import SparkSession
 from pyspark.sql.functions import when, col
 
-from ingested_dataframes import ge_cars
+from cars_df import ge_cars
 
 __all__ = ["cars_price"]
 
@@ -14,5 +14,5 @@ def cars_price(spark: SparkSession):
         "high")).groupBy("Manufacturer", "price_range").count()
     df_agg.show(5)
 
-    df_agg.write.format("csv").mode(SaveMode.Overwrite).save("kaggle_files/cars_grouped.csv")
+    df_agg.write.format("csv").mode("overwrite").save("kaggle_files/cars_grouped.csv")
     return df_agg

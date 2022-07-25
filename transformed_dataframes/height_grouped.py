@@ -1,7 +1,7 @@
 from pyspark.sql import (SparkSession, functions as F)
 from pyspark.sql.types import StructType, StructField, IntegerType
 
-from ingested_dataframes import height_by_gender_and_country
+from height_by_gender_and_country_df import height_by_gender_and_country
 
 __all__ = ["height_transformed"]
 

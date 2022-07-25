@@ -1,8 +1,7 @@
 import logging
+from json import dumps, loads
 
-from pandas._libs import json
-from pyspark.pandas import DataFrame
-from pyspark.sql import SparkSession
+from pyspark.sql import SparkSession, DataFrame
 
 import ingested_dataframes
 import transformed_dataframes
@@ -34,8 +33,8 @@ def get_schema(df: DataFrame, schema_type: str):
         logging.warning("*** Schema as string: {}".format(df.schema))
     else:
         schema_as_json = df.schema.json()
-        parsed_schema = json.loads(schema_as_json)
-        logging.warning("*** Schema as JSON: {}".format(json.dumps(parsed_schema, indent=2)))
+        parsed_schema = loads(schema_as_json)
+        logging.warning("*** Schema as JSON: {}".format(dumps(parsed_schema, indent=2)))
 
 
 def get_query_plan(df: DataFrame):
@@ -69,12 +68,12 @@ if __name__ == '__main__':
     - zero or more options like mode (failFast, dropMalformed, permissive), 
     dateFormat, header, sep, nullValue
     '''
-    for i in ingested_dataframes.__all__:
-        eval(i)(spark)
-        # logging.warning("*** Right after ingestion")
-        # get_number_of_records(eval(i)(spark))
-        # get_number_of_partitions(eval(i)(spark))
-        # get_number_of_partitions_after_repartition(eval(i)(spark), 4)
+    for dataframe in ingested_dataframes.__all__(spark):
+        dataframe
+    # logging.warning("*** Right after ingestion")
+    # get_number_of_records(eval(i)(spark))
+    # get_number_of_partitions(eval(i)(spark))
+    # get_number_of_partitions_after_repartition(eval(i)(spark), 4)
 
     ''' 
     Writing a DF:

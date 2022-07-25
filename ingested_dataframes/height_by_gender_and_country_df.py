@@ -7,6 +7,7 @@ from pyspark.sql import SparkSession
 
 __all__ = ["height_by_gender_and_country"]
 
+
 # INGESTION WITHOUT SCHEMA
 def height_by_gender_and_country(spark: SparkSession):
     data_file_path = '/Users/thabata.pontes/Desktop/PySparkETL/kaggle_files/Height_of_Male_and_Female_by_Country_2022.csv'

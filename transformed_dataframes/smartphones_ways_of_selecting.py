@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, column, expr
 
-from ingested_dataframes import smartphones_dataframe
+from smartphones_df import smartphones_dataframe
 
 __all__ = ["smartphones_select"]
 
