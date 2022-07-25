@@ -1,30 +1,29 @@
 import os
 
-from numpy.array_api._array_object import Array
 from pyspark.sql import SparkSession
 
-__all__ = ["cars"]
+__all__ = ["enforcing_cars_schema"]
 
 from pyspark.sql.types import StructType, StructField, StringType, DoubleType, LongType, DateType
 
 
 # INGESTION ENFORCING SCHEMA
-def cars(spark: SparkSession):
+def enforcing_cars_schema(spark: SparkSession):
     current_dir = "/Users/thabata.pontes/Desktop/PySparkETL/kaggle_files/"
     relative_path = "cars.json"
     absolute_file_path = os.path.join(current_dir, relative_path)
 
-    cars_schema = StructType(Array(
-        StructField("Name", StringType),
-        StructField("Miles_per_Gallon", DoubleType),
-        StructField("Cylinders", LongType),
-        StructField("Displacement", DoubleType),
-        StructField("Horsepower", LongType),
-        StructField("Weight_in_lbs", LongType),
-        StructField("Acceleration", DoubleType),
-        StructField("Year", DateType),
-        StructField("Origin", StringType)
-    ))
+    cars_schema = StructType(
+        [StructField("Name", StringType()),
+         StructField("Miles_per_Gallon", DoubleType()),
+         StructField("Cylinders", LongType()),
+         StructField("Displacement", DoubleType()),
+         StructField("Horsepower", LongType()),
+         StructField("Weight_in_lbs", LongType()),
+         StructField("Acceleration", DoubleType()),
+         StructField("Year", DateType()),
+         StructField("Origin", StringType())]
+    )
 
     '''
         MODE
