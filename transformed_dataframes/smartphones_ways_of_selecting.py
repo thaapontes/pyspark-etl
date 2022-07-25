@@ -13,7 +13,7 @@ def smartphones_select(spark: SparkSession):
     it's not possible to use $ in pyspark,
     since it uses implicit type def in scala that does not exist in python 
     '''
-    df_selected = df.select(col("make"), column("model"), expr("platform"), df.col("camera_megapixels"))
+    df_selected = df.select(col("make"), column("model"), expr("platform"), df["camera_megapixels"])
     df_selected_expr = df_selected.selectExpr("make", "model", "camera_megapixels + 1")
 
     return df_selected_expr

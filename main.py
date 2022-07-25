@@ -7,10 +7,6 @@ import ingested_dataframes
 import transformed_dataframes
 
 
-# from transformed_dataframes import cars_price, artists_danceability, height_transformed
-# TODO find a way to remove these imports
-
-
 def get_number_of_records(df: DataFrame):
     print('Total Records = {}'.format(df.count()))
 
@@ -83,8 +79,8 @@ if __name__ == '__main__':
     - zero or more options
     '''
 
-    for i in transformed_dataframes.__all__:
-        eval(i)(spark)
+    for dataframe in transformed_dataframes.__all__(spark):
+        dataframe
         # logging.warning("*** Right after transformations")
         # get_schema(eval(i)(spark), 'json')
         # get_query_plan(eval(i)(spark))
