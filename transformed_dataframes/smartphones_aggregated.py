@@ -1,5 +1,5 @@
 from pyspark.sql import SparkSession
-from pyspark.sql.functions import count, col, countDistinct, avg
+from pyspark.sql.functions import count, col, countDistinct, avg, min
 
 from smartphones_df import smartphones_dataframe
 
@@ -20,14 +20,14 @@ def smartphones_agg(spark: SparkSession):
     df_count_distinct_rows.show()
 
     # Min, max, avg
-    df_min_row = df.select(min(col("make")))
+    df_min_row = df.select(min(col("camera_megapixels")))
     df_min_row.show()
     # Grouping
     df_count_by_make = df.groupBy("make").count()
     df_count_by_make.show()
-    df_avg_model_by_make = df.groupBy("make").avg("model")
+    df_avg_model_by_make = df.groupBy("make").avg("camera_megapixels")
     df_avg_model_by_make.show()
-    df_agg_by_make = df.groupBy("make").agg(avg("model").alias("avg_model"), count("*").alias("count"))
+    df_agg_by_make = df.groupBy("make").agg(avg("camera_megapixels").alias("avg_megapixels"), count("*").alias("count"))
     df_agg_by_make.show()
 
     return df_count_all_rows
