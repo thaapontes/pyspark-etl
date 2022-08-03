@@ -158,13 +158,13 @@ if __name__ == '__main__':
     user = "docker"
     password = "docker"
 
-    employeesDF = spark.read
+    def read_table(table_name: str) = spark.read
     .format("jdbc")
     .option("driver", driver)
     .option("url", url)
     .option("user", user)
     .option("password", password)
-    .option("dbtable", "public.employees")
+    .option("dbtable", s"public.$table_name")
     .load()
     '''
     # Tables in spark are transient, remember to write tables before finishing the session with spark.stop()
