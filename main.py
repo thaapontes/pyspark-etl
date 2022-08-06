@@ -5,6 +5,7 @@ from pyspark.sql import SparkSession, DataFrame
 
 import ingested_dataframes
 import transformed_dataframes
+from udfs import register_udf
 
 
 def get_number_of_records(df: DataFrame):
@@ -53,6 +54,11 @@ if __name__ == '__main__':
         .appName("reading csv") \
         .master("local") \
         .getOrCreate()
+
+    '''
+    Call udfs
+    '''
+    register_udf(spark)
 
     ''' 
     Call ingested dataframes Multiple ways to ingest different formats:
@@ -117,7 +123,7 @@ if __name__ == '__main__':
     '''
 
     # chapter 08: database
-    # chapter 12
+    # chapter 15
 
     '''
     Next step: save file to database
