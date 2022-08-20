@@ -138,7 +138,7 @@ if __name__ == '__main__':
     '''
 
     # chapter 08: database
-    # chapter 16
+    # chapter 17
 
     '''
     Next step: save file to database
