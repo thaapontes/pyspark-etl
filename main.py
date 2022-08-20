@@ -48,6 +48,21 @@ def load_df(df: DataFrame, df_name: str):
     df.coalesce(1).write.format('json').save(df_name + '.json')
 
 
+def persist_mode(mode: str, df: DataFrame):
+    """
+    :param df: the dataframe will wish to persist
+    :param mode: cache can be used for datasets that will be repeatedly computed and are not too large checkpoint can
+    be used for datasets that takes a long time to run, or when the computing chain is too long or depends on too
+    many datasets
+    cache save in memory/disk and remember lineage whilst checkpoint saves to an HDFS and forgets the lineage
+    resource: https://mallikarjuna_g.gitbooks.io/sparkinternals/content/cache-and-checkpoint.html
+    """
+    if mode == 'cache':
+        df.cache()
+    elif mode == 'checkpoint':
+        df.checkpoint()
+
+
 if __name__ == '__main__':
     # Create a session on a local master
     spark = SparkSession.builder \
