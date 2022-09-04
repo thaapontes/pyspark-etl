@@ -18,4 +18,5 @@ def artists_danceability(spark: SparkSession):
         """
     avg_danceability_by_artist = spark.sql(query).withColumn("upper_case_artists", upper_case_udf(col("artists")))
     avg_danceability_by_artist.show(5)
+
     return avg_danceability_by_artist

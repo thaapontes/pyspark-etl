@@ -2,6 +2,8 @@ import logging
 from json import dumps, loads
 
 from pyspark.sql import SparkSession, DataFrame
+# noinspection PyUnresolvedReferences
+from delta import *
 
 import ingested_dataframes
 import transformed_dataframes
@@ -65,6 +67,10 @@ def persist_mode(mode: str, df: DataFrame):
 
 if __name__ == '__main__':
     # Create a session on a local master
+    '''
+    To allow Databricks Delta Lake: https://docs.delta.io/latest/quick-start.html#pyspark-shell
+    .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
+    '''
     spark = SparkSession.builder \
         .appName("reading csv") \
         .master("local") \
