@@ -143,8 +143,8 @@ if __name__ == '__main__':
     query.awaitTermination()
     '''
 
-    # chapter 08: database
-    # chapter 17
+    # chapter 08: database (elasticSearch for instance)
+    # chapter 18
 
     '''
     Next step: save file to database
