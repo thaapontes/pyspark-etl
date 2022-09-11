@@ -14,5 +14,5 @@ def cars_price(spark: SparkSession):
         "high")).groupBy("Manufacturer", "price_range").count()
     df_agg.show(5)
 
-    # df_agg.write.format("csv").mode("overwrite").save("kaggle_files/cars_grouped.csv")
+    # df_agg.write.format("csv").mode("overwrite").save("written_files/cars_grouped.csv")
     return df_agg
