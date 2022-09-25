@@ -8,5 +8,6 @@ def rdd(spark: SparkSession):
 
     numbers = range(1, 1000)
     numbers_rdd = sc.parallelize(numbers)
+    rdd_collect = numbers_rdd.collect()
 
-    return numbers_rdd
+    return rdd_collect
