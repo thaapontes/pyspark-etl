@@ -10,6 +10,7 @@
       <sourceFolder url="file://$MODULE_DIR$/spark-warehouse" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/transformed_dataframes" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/venv" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/common-etl" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/venv" />
     </content>
     <orderEntry type="inheritedJdk" />
