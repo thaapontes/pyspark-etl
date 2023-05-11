@@ -3,7 +3,7 @@
 This project is a PySpark application that read files extracted from kaggle in different formats such as csv and json and ingest them using Spark batch processing. 
 Then it also creates some data pipelines to apply some transformations and finally writes the result on AWS S3.
 
-<img src="etl.png" alt="ETL process" style="width: 200px; height: 200px;">
+<img src="etl.png" alt="ETL process" style="width: 400px; height: 400px;">
 ![ETL process](etl.png)
 
 ## How to Use
