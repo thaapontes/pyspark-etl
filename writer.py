@@ -1,7 +1,7 @@
 import boto3
 
 # Tables in spark are transient, so we need to write tables before finishing the session with spark.stop()
-
+# Reference: https://www.stackvidhya.com/write-a-file-to-s3-using-boto3/
 # Creating Session With Boto3.
 session = boto3.Session(
     aws_access_key_id='AKIAQNW56D3ZIESDXSEK',
